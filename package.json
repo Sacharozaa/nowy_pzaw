@@ -1,0 +1,23 @@
+{
+  "name": "nowy_pzaw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sacharozaa/nowy_pzaw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sacharozaa/nowy_pzaw/issues"
+  },
+  "homepage": "https://github.com/Sacharozaa/nowy_pzaw#readme",
+  "dependencies": {
+    "react": "^19.3.1"
+  },
+  "description": ""
+}
