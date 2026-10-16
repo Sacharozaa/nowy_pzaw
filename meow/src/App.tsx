@@ -7,6 +7,41 @@ interface props{
   m_link?:string;
   pagecount?: number;
 }
+interface Movie{
+
+  title?:string;
+  year?:number;
+  img?:string;
+}
+
+const movies: Movie[] = [
+  {
+    title: "Eiga Chiikawa: Ningyo no Shima no Himitsu",
+    year: 2026,
+    img: "./public/chiikawa.jpg"
+  },
+  {
+    title: "Spider-Man: Into the Spider-Verse",
+    year: 2018,
+    img: "./public/spiderverae.jpg"
+  },
+  {
+    title: "fight club",
+    year: 1999,
+    img: "./public/fightclub.jpg"
+  },
+  {
+    title: "Pokémon: The First Movie",
+    year: 1998,
+    img: "./public/pokemon.jpg"
+  },
+    {
+    title: "Spirited Away",
+    year: 2001,
+    img: "./public/spiritedaway.jpeg"
+  }
+];
+
 
 function Movies({title, year, img}:props){
     return(
@@ -33,22 +68,14 @@ function App(){
       <div>
       <h1>˚₊‧꒰ა FILMY ໒꒱ ‧₊˚</h1><br />
       <div className='put_correct'>
-        <Movies 
-        title="Eiga Chiikawa: Ningyo no Shima no Himitsu" 
-        year={2026} 
-        img="./public/chiikawa.jpg"/>
-        <Movies 
-        title="Spider-Man: Into the Spider-Verse" 
-        year={2018} 
-        img="./public/spiderverae.jpg"/>
-        <Movies 
-        title="fight club" 
-        year={1999} 
-        img="./public/fightclub.jpg"/>
-        <Movies 
-        title="Pokémon: The First Movie" 
-        year={1998} 
-        img="./public/pokemon.jpg"/>
+        {movies.map((movie)=> (
+        <Movies
+        key={movie.title}
+        title={movie.title}
+        year={movie.year}
+        img={movie.img}
+        />
+        ))}
       </div>
      
     </div>
