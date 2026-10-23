@@ -1,4 +1,5 @@
 import './App.css'
+import { useState } from 'react';
 interface props{
 
   title?:string;
@@ -19,7 +20,6 @@ interface Book{
   year: number;
   img: string;
   pagecount: number;
-
 }
 interface Song{
   number: number;
@@ -50,7 +50,8 @@ const movies: Movie[] = [
   {
     title: "fight club",
     year: 1999,
-    img: "/fightclub.jpg", rating: 9
+    img: "/fightclub.jpg",
+    rating: 9
   },
   {
     title: "Pokémon: The First Movie",
@@ -99,6 +100,7 @@ function Movies({title, year, img, rating}:Movie){
         <p>{title}</p>
         <p>{year}</p>
         <p>Ocena: {rating}/10</p>
+        {rating >= 8 && <p>Polecany</p>}
       </div>
     );
 }
@@ -109,6 +111,7 @@ function Ksiazki({ title, year, img, pagecount }: props) {
       <p>{title}</p>
       <p>Rok wydania: {year}</p>
       <p>Liczba stron: {pagecount}</p>
+      {year !== undefined && year < 2000 && <p>Klasyka</p>}
     </div>
   );
 }
@@ -122,6 +125,7 @@ function AlbumMuzyczny({title, artist, genre, year, img, songs}:Album){
       <p>{title}</p>
       <p>{artist} - {genre}</p>
       <p>{year}</p>
+      {songs.length === 0 && <p>Brak utworów</p>}
       {songs.map((song)=> <Utwor key={song.number} {...song} />)}
     </div>
   );
@@ -129,17 +133,23 @@ function AlbumMuzyczny({title, artist, genre, year, img, songs}:Album){
 movies.sort((a,b)=> a.title.localeCompare(b.title));
 books.sort((a,b)=> a.title.localeCompare(b.title));
 albums.sort((a,b)=> a.title.localeCompare(b.title));
-
 const movies_after2010 = movies.filter((movie)=> movie.year > 2010);
 const books_new = [...books].sort((a,b)=> b.year - a.year);
 const album_most_songs = [...albums].sort((a,b)=> b.songs.length - a.songs.length)[0];
 
 function App(){
+  const [filmyOpen, setFilmyOpen] = useState(true);
+  const [ksiazkiOpen, setKsiazkiOpen] = useState(true);
+  const [albumyOpen, setAlbumyOpen] = useState(true);
+  const [filmy2010Open, setFilmy2010Open] = useState(true);
+  const [ksiazkiNoweOpen, setKsiazkiNoweOpen] = useState(true);
+  const [albumNajOpen, setAlbumNajOpen] = useState(true);
+  //Co do pytania, mysle ze ogl jest to lepszy pomysl niz pisania tego za kzdym razem ale jest poznio, nie chce mi sie i moze w przyszleszlej edycji tgeo to dodam 
   return(
     <div>
       <div>
-      <h1>˚₊‧꒰ა FILMY ໒꒱ ‧₊˚</h1><br />
-      <div className='put_correct'>
+      <h1 onClick={()=> setFilmyOpen(!filmyOpen)}>{filmyOpen ? "▾ " : "▸ "}˚₊‧꒰ა FILMY ໒꒱ ‧₊˚</h1><br />
+      {filmyOpen && <div className='put_correct'>
         {movies.map((movie)=> (
         <Movies
         key={movie.title}
@@ -149,41 +159,42 @@ function App(){
         rating={movie.rating}
         />
         ))}
-      </div>
+      </div>}
      
     </div>
     <div>
-      <h1>Ksiazki</h1><br />
-      <div className='put_correct'>
+      <h1 onClick={()=> setKsiazkiOpen(!ksiazkiOpen)}>{ksiazkiOpen ? "▾ " : "▸ "}Ksiazki</h1><br />
+      {ksiazkiOpen && <div className='put_correct'>
         {books.map((book)=> <Ksiazki key={book.title} {...book} />)}
         <img src="/Hungry Belly Sticker.gif" className='img' />
         
         
-      </div>
-      </div>
+      </div>}
+     
+    </div>
     <div>
-      <h1>Albumy muzyczne ˖ ݁♬⋆.˚𝄞</h1><br />
-      <div className='put_correct'>
+      <h1 onClick={()=> setAlbumyOpen(!albumyOpen)}>{albumyOpen ? "▾ " : "▸ "}Albumy muzyczne</h1><br />
+      {albumyOpen && <div className='put_correct'>
         {albums.map((album)=> <AlbumMuzyczny key={album.title} {...album} />)}
-      </div>
+      </div>}
     </div>
     <div>
-      <h1>Filmy po 2010˚˖𓍢ִ໋🦢˚</h1><br />
-      <div className='put_correct'>
+      <h1 onClick={()=> setFilmy2010Open(!filmy2010Open)}>{filmy2010Open ? "▾ " : "▸ "}Filmy po 2010</h1><br />
+      {filmy2010Open && <div className='put_correct'>
         {movies_after2010.map((movie)=> <Movies key={movie.title} {...movie} />)}
-      </div>
+      </div>}
     </div>
     <div>
-      <h1>Ksiazki od najnowszej₊˚⊹ᰔ</h1><br />
-      <div className='put_correct'>
+      <h1 onClick={()=> setKsiazkiNoweOpen(!ksiazkiNoweOpen)}>{ksiazkiNoweOpen ? "▾ " : "▸ "}Ksiazki od najnowszej</h1><br />
+      {ksiazkiNoweOpen && <div className='put_correct'>
         {books_new.map((book)=> <Ksiazki key={book.title} {...book} />)}
-      </div>
+      </div>}
     </div>
     <div>
-      <h1>Album z najwieksza liczba utwoeow⋆✴˚｡⋆</h1><br />
-      <div className='put_correct'>
+      <h1 onClick={()=> setAlbumNajOpen(!albumNajOpen)}>{albumNajOpen ? "▾ " : "▸ "}Album z najwieksza liczba utworow</h1><br />
+      {albumNajOpen && <div className='put_correct'>
         <AlbumMuzyczny {...album_most_songs} />
-      </div>
+      </div>}
     </div>
     </div>
     
