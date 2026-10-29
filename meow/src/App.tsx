@@ -95,12 +95,18 @@ const albums: Album[] = [
 
 function Movies({title, year, img, rating}:Movie){
     return(
-      <div>
+      <div className="card" onClick={() => console.log("Wybrano film: " + title)}>
         <img src={img} className='img'></img>
-        <p>{title}</p>
-        <p>{year}</p>
-        <p>Ocena: {rating}/10</p>
-        {rating >= 8 && <p>Polecany</p>}
+        <div className="card-body">
+          <p>{title}</p>
+          <p>{year}</p>
+          <button onClick={(event) => {
+            event.stopPropagation();
+            console.log("Pokaż szczegóły dla " + title);
+          }}>Pokaż szczegóły</button>
+          <p>Ocena: {rating}/10</p>
+          {rating >= 8 && <p>Polecany</p>}
+        </div>
       </div>
     );
 }
@@ -116,9 +122,19 @@ function Ksiazki({ title, year, img, pagecount }: props) {
   );
 }
 function Utwor({number, title, duration}:Song){
-  return <p>{number}. {title} - {duration}</p>;
+  return (
+    <>
+      <td>{number}</td>
+      <td>{title}</td>
+      <td>{duration}</td>
+    </>
+  );
 }
 function AlbumMuzyczny({title, artist, genre, year, img, songs}:Album){
+  function handleSongClick(songTitle: string){
+    console.log("Wybrano utwór: " + songTitle + " z " + title);
+  }
+
   return(
     <div className="card">
       <img src={img} className="img" />
@@ -126,7 +142,15 @@ function AlbumMuzyczny({title, artist, genre, year, img, songs}:Album){
       <p>{artist} - {genre}</p>
       <p>{year}</p>
       {songs.length === 0 && <p>Brak utworów</p>}
-      {songs.map((song)=> <Utwor key={song.number} {...song} />)}
+      <table>
+        <tbody>
+          {songs.map((song)=> (
+            <tr key={song.number} onClick={() => handleSongClick(song.title)}>
+              <Utwor {...song} />
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
