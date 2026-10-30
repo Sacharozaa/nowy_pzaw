@@ -168,13 +168,24 @@ function App(){
   const [filmy2010Open, setFilmy2010Open] = useState(true);
   const [ksiazkiNoweOpen, setKsiazkiNoweOpen] = useState(true);
   const [albumNajOpen, setAlbumNajOpen] = useState(true);
+  const [movieSearch, setMovieSearch] = useState("");
+  const [bookSearch, setBookSearch] = useState("");
+  const [albumSearch, setAlbumSearch] = useState("");
+  const movies_found = movies.filter((movie)=> movie.title.toLowerCase().includes(movieSearch.toLowerCase()));
+  const books_found = books.filter((book)=> book.title.toLowerCase().includes(bookSearch.toLowerCase()));
+  const albums_found = albums.filter((album)=> album.title.toLowerCase().includes(albumSearch.toLowerCase()));
   //Co do pytania, mysle ze ogl jest to lepszy pomysl niz pisania tego za kzdym razem ale jest poznio, nie chce mi sie i moze w przyszleszlej edycji tgeo to dodam 
   return(
     <div>
       <div>
       <h1 onClick={()=> setFilmyOpen(!filmyOpen)}>{filmyOpen ? "▾ " : "▸ "}˚₊‧꒰ა FILMY ໒꒱ ‧₊˚</h1><br />
-      {filmyOpen && <div className='put_correct'>
-        {movies.map((movie)=> (
+      {filmyOpen && <>
+        <input type="text" id="movie-search" className="form-control" placeholder="Szukaj filmu"
+          value={movieSearch} onChange={(e)=> {setMovieSearch(e.target.value); console.log(e.target.value)}} />
+        <p>Wpisano: {movieSearch}</p>
+        {movies_found.length === 0 && <p>Nie znaleziono filmów</p>}
+        <div className='put_correct'>
+        {movies_found.map((movie)=> (
         <Movies
         key={movie.title}
         title={movie.title}
@@ -183,24 +194,37 @@ function App(){
         rating={movie.rating}
         />
         ))}
-      </div>}
+        </div>
+      </>}
      
     </div>
     <div>
       <h1 onClick={()=> setKsiazkiOpen(!ksiazkiOpen)}>{ksiazkiOpen ? "▾ " : "▸ "}Ksiazki</h1><br />
-      {ksiazkiOpen && <div className='put_correct'>
-        {books.map((book)=> <Ksiazki key={book.title} {...book} />)}
+      {ksiazkiOpen && <>
+        <input type="text" id="book-search" className="form-control" placeholder="Szukaj książki"
+          value={bookSearch} onChange={(e)=> {setBookSearch(e.target.value); console.log(e.target.value)}} />
+        <p>Wpisano: {bookSearch}</p>
+        {books_found.length === 0 && <p>Nie znaleziono książek</p>}
+        <div className='put_correct'>
+        {books_found.map((book)=> <Ksiazki key={book.title} {...book} />)}
         <img src="/Hungry Belly Sticker.gif" className='img' />
         
         
-      </div>}
+        </div>
+      </>}
      
     </div>
     <div>
       <h1 onClick={()=> setAlbumyOpen(!albumyOpen)}>{albumyOpen ? "▾ " : "▸ "}Albumy muzyczne</h1><br />
-      {albumyOpen && <div className='put_correct'>
-        {albums.map((album)=> <AlbumMuzyczny key={album.title} {...album} />)}
-      </div>}
+      {albumyOpen && <>
+        <input type="text" id="album-search" className="form-control" placeholder="Szukaj albumu"
+          value={albumSearch} onChange={(e)=> {setAlbumSearch(e.target.value); console.log(e.target.value)}} />
+        <p>Wpisano: {albumSearch}</p>
+        {albums_found.length === 0 && <p>Nie znaleziono albumów</p>}
+        <div className='put_correct'>
+        {albums_found.map((album)=> <AlbumMuzyczny key={album.title} {...album} />)}
+        </div>
+      </>}
     </div>
     <div>
       <h1 onClick={()=> setFilmy2010Open(!filmy2010Open)}>{filmy2010Open ? "▾ " : "▸ "}Filmy po 2010</h1><br />
